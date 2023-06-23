@@ -1,7 +1,7 @@
 ## How to try this project
 1. Download the repo locally
-2. open a terminal on the project folder
-3. run:
+2. Open a terminal on the project folder
+3. Run:
 
     `npm install`
 
