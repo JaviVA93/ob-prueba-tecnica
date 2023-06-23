@@ -1,25 +1,59 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import style from "./todo.module.css";
-import { Ttodo } from '../../utils/types'
+import { Ttodo } from "../../utils/types";
+import Task from "../task/Task";
 
-export default function ToDo() {
+export default function ToDoList() {
   const newTodoInputElem = useRef<HTMLInputElement>(null);
   const [todoList, setTodoList] = useState<Ttodo[]>([]);
+
+  const someCompletedTasks = todoList.some((i) => i.completed === true);
+
+  function updateTodos(todos: Ttodo[]) {
+    localStorage.setItem('todos', JSON.stringify(todos))
+    setTodoList(todos);
+  }
 
   function addTodo(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
-    if (!newTodoInputElem.current)
-        return
+    if (!newTodoInputElem.current) return;
 
-    const newTodo = { 
-        title: newTodoInputElem.current.value,
-        completed: false
+    const newTodo = {
+      id: Date.now().toString(),
+      title: newTodoInputElem.current.value,
+      completed: false,
+    };
+
+    const todosCopy = [...todoList, newTodo];
+    updateTodos(todosCopy);
+
+    // Clean input
+    newTodoInputElem.current.value = ''
+  }
+
+  function updateTaskStatus(taskId: string, status: boolean) {
+    const todosCopy = [...todoList];
+    const index = todosCopy.findIndex((i) => i.id === taskId);
+    if (index === -1) {
+      // SHOW AN ERROR
     }
 
-    const todosCopy = [...todoList, newTodo]
-    setTodoList(todosCopy)
+    todosCopy[index].completed = status;
+    console.log(todosCopy);
+    updateTodos(todosCopy);
   }
+
+  function removeCompletedTasks() {
+    const pendingTodos = todoList.filter((i) => i.completed === false);
+    updateTodos(pendingTodos);
+  }
+
+  useEffect(() => {
+    const localTodos = localStorage.getItem('todos')
+    if (localTodos)
+        setTodoList(JSON.parse(localTodos))
+  }, [])
 
   return (
     <section className={style.section}>
@@ -30,16 +64,25 @@ export default function ToDo() {
           Add Todo
         </button>
       </form>
-      {
-        todoList.length > 0 
-        ? todoList.map( todo => <div>
-            <span>{todo.title}</span>
-            <div>
-                <span>Status:</span>
-                <span>{(todo.completed ? 'COMPLETED' : 'IN PROGRESS')}</span>
-            </div>
-        </div>)
-        : ""}
+      {todoList.length > 0
+        ? todoList.map((todo) => (
+            <Task
+              key={todo.id}
+              id={todo.id}
+              title={todo.title}
+              completed={todo.completed}
+              updateTaskStatus={updateTaskStatus}
+            />
+          ))
+        : "Nothing to do atm 😁"}
+
+      {someCompletedTasks ? (
+        <button type="button" onClick={removeCompletedTasks}>
+          Remove completed
+        </button>
+      ) : (
+        ""
+      )}
     </section>
   );
 }

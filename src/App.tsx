@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import './App.css'
-import ToDo from './components/todo/ToDo'
+import ToDoList from './components/todo/ToDo'
 
 function App() {
-  
-
   return (
-    <ToDo />
+    <ToDoList />
   )
 }
 
