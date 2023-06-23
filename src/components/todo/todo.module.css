@@ -1,3 +1,88 @@
 .section {
-    background-color: grey;
+    --mainColor: rgb(87, 86, 86);
+    --secondaryColor: rgb(31, 31, 31);
+
+    background-color: rgb(161, 159, 159);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+    border-radius: 8px;
+    margin: auto;
+    padding: 15px;
+}
+
+
+.section form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 30px;
+}
+
+.section form input {
+    padding: 5px 10px;
+    border: 0;
+    border-radius: 4px;
+    background-color: var(--secondaryColor);
+    transition: padding 0.25s;
+}
+
+.section form input:focus-visible {
+    outline: 0;
+    padding: 10px 15px;
+}
+
+.section form button {
+    padding: 5px;
+    border: 0;
+    border-radius: 4px;
+    background-color: var(--mainColor);
+    transition: all 0.25s;
+}
+
+.section form button:hover {
+    margin-left: 4px;
+    transform: scale(1.15);
+}
+
+.section form button:active {
+    background-color: rgb(124, 123, 123);
+}
+
+
+.section .todosWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.rmvAllBtn {
+    margin-top: 20px;
+    padding: 5px 15px;
+    border: 0;
+    border-radius: 4px;
+    transition: all 0.25s;
+    background-color: var(--mainColor);
+}
+
+.rmvAllBtn:hover {
+    transform: scale(1.15);
+}
+
+.rmvAllBtn:active {
+    background-color: rgb(124, 123, 123);
+}
+
+@media screen and (max-width: 750px) {
+    .section form {
+        flex-direction: column;
+    }
+
+    .section form button:hover {
+        margin-left: 0;
+        margin-top: 4px;
+        transform: scale(1.15);
+    }
 }

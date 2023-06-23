@@ -1,0 +1,78 @@
+.task {
+    --completedColor: rgb(55, 114, 55);
+    --pendingColor: rgb(117, 86, 46);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid grey;
+    padding: 5px 15px;
+    border-radius: 4px;
+}
+
+.taskTitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 55%;
+    text-align: start;
+}
+
+.statusWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: auto;
+    width: 110px;
+}
+
+.task.pending .status {
+    color: var(--pendingColor)
+}
+
+.task.completed .status {
+    color: var(--completedColor)
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+}
+
+.task button {
+    border: 0;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.task.pending button:hover {
+    background-color: var(--completedColor)
+}
+
+.task.completed button:hover {
+    background-color: var(--pendingColor)
+}
+
+
+@media screen and (max-width: 750px) {
+    .task {
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .taskTitle {
+        max-height: 75px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .statusWrapper {
+        margin: unset;
+        align-self: flex-start;
+    }
+
+    .buttonWrapper {
+        align-self: flex-end;
+    }
+
+}

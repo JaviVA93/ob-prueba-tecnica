@@ -10,14 +10,15 @@ export default function ToDoList() {
   const someCompletedTasks = todoList.some((i) => i.completed === true);
 
   function updateTodos(todos: Ttodo[]) {
-    localStorage.setItem('todos', JSON.stringify(todos))
+    localStorage.setItem("todos", JSON.stringify(todos));
     setTodoList(todos);
   }
 
   function addTodo(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
-    if (!newTodoInputElem.current) return;
+    if (!newTodoInputElem.current || newTodoInputElem.current.value === '') 
+        return;
 
     const newTodo = {
       id: Date.now().toString(),
@@ -29,7 +30,7 @@ export default function ToDoList() {
     updateTodos(todosCopy);
 
     // Clean input
-    newTodoInputElem.current.value = ''
+    newTodoInputElem.current.value = "";
   }
 
   function updateTaskStatus(taskId: string, status: boolean) {
@@ -50,10 +51,9 @@ export default function ToDoList() {
   }
 
   useEffect(() => {
-    const localTodos = localStorage.getItem('todos')
-    if (localTodos)
-        setTodoList(JSON.parse(localTodos))
-  }, [])
+    const localTodos = localStorage.getItem("todos");
+    if (localTodos) setTodoList(JSON.parse(localTodos));
+  }, []);
 
   return (
     <section className={style.section}>
@@ -64,20 +64,21 @@ export default function ToDoList() {
           Add Todo
         </button>
       </form>
-      {todoList.length > 0
-        ? todoList.map((todo) => (
-            <Task
-              key={todo.id}
-              id={todo.id}
-              title={todo.title}
-              completed={todo.completed}
-              updateTaskStatus={updateTaskStatus}
-            />
-          ))
-        : "Nothing to do atm 😁"}
-
+      <div className={style.todosWrapper}>
+        {todoList.length > 0
+          ? todoList.map((todo) => (
+              <Task
+                key={todo.id}
+                id={todo.id}
+                title={todo.title}
+                completed={todo.completed}
+                updateTaskStatus={updateTaskStatus}
+              />
+            ))
+          : "Nothing to do atm 😁"}
+      </div>
       {someCompletedTasks ? (
-        <button type="button" onClick={removeCompletedTasks}>
+        <button className={style.rmvAllBtn} type="button" onClick={removeCompletedTasks}>
           Remove completed
         </button>
       ) : (

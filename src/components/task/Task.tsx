@@ -1,3 +1,5 @@
+import style from "./task.module.css";
+
 export default function Task(props: {
   updateTaskStatus: Function;
   id: string;
@@ -8,17 +10,18 @@ export default function Task(props: {
   function handleCompleted() {
     updateTaskStatus(id, !completed);
   }
-  
+
   return (
-    <div>
-      <span>{title}</span>
-      <div>
+    <div
+      className={`${style.task} ${completed ? style.completed : style.pending}`}
+    >
+      <span className={style.taskTitle}>{title}</span>
+      <div className={style.statusWrapper}>
         <span>Status:</span>
-        <span>{completed ? "COMPLETED" : "IN PROGRESS"}</span>
-        <button
-          type="button"
-          onClick={handleCompleted}
-        >
+        <span className={style.status}>{completed ? "COMPLETED" : "IN PROGRESS"}</span>
+      </div>
+      <div className={style.buttonWrapper}>
+        <button type="button" onClick={handleCompleted}>
           {completed ? "Mark as pending" : "Mark as done"}
         </button>
       </div>
